@@ -13,3 +13,27 @@ I had to modify Sublime's build command for 32-bit mode:
     "shell_cmd": "\"c:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\vc\\vcvarsall.bat\" x86 && nim cpp --cpu:i386 $file_base_name"
 }
 ```
+
+#Problems
+
+## c2nim has trouble with templates:
+
+    bestfilter.h(16, 41) Error: '> [end of template]' expected
+    color.h(219, 61) Error: ')' expected
+    comparisonfilter.h(13, 50) Error: did not expect [
+    event.h(17, 16) Error: ';' expected
+    filters.h(22, 45) Error: '> [end of template]' expected
+    game.h(52, 48) Error: '[integer literal]' expected
+    interface.h(19, 18) Error: ';' expected
+    interfaceevent.h(18, 23) Error: ';' expected
+    position.h(11, 38) Error: '> [end of template]' expected
+    setcontainer.h(17, 51) Error: '> [end of template]' expected
+    type.h(13, 35) Error: '> [end of template]' expected
+    unaryfilter.h(22, 72) Error: '> [end of template]' expected
+    unitcommand.h(18, 22) Error: ';' expected
+    client\bulletimpl.h(19, 41) Error: ';' expected
+    client\forceimpl.h(15, 41) Error: ';' expected
+    client\gameimpl.h(81, 57) Error: ';' expected
+    client\playerimpl.h(22, 41) Error: ';' expected
+    client\regionimpl.h(20, 39) Error: ';' expected
+    client\unitimpl.h(30, 51) Error: ';' expected
