@@ -1,3 +1,4 @@
+Basic C++ static library usage in Nim.
 
 I installed c2nim using nimble: `nimble install c2nim`
 
@@ -5,7 +6,7 @@ Then I ran c2nim on the BWAPI header:
 
 `c2nim --cpp --header bwapi\include\BWAPI.h -o:BWAPI.nim`
 
-I had to modify the build command for 32-bit mode:
+I had to modify Sublime's build command for 32-bit mode:
 
 ```
 {
