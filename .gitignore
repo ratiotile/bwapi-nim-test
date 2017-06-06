@@ -1,0 +1,4 @@
+bindings/
+bwapi/
+nimcache/
+*.exe
