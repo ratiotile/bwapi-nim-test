@@ -49,7 +49,7 @@ proc closeBrace()=
 
 iterator enumParser(line:string): string {.closure.} =
   var body:seq[string]
-  body = @[]
+  body = @["{"]
   var matches: array[10, string]
   while line.find(re_open_braces, matches) == -1:
     yield ""
@@ -61,7 +61,7 @@ iterator enumParser(line:string): string {.closure.} =
     if stripped.endsWith(","):
       body.add(stripped)
     if stripped.find(re_close_braces, matches) > -1:
-      var output = "{\n"&body.join("\n")&"\n};"
+      var output = body.join("\n  ")&"\n};"
       yield output
       return
     yield ""
