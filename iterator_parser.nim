@@ -1,5 +1,5 @@
 import ospaths, re, strutils
-let files = [
+let pure_enums = [
   "bwapi/include/bwapi/CoordinateType.h".unixToNativePath,
   "bwapi/include/bwapi/EventType.h".unixToNativePath,
   "bwapi/include/bwapi/Flag.h".unixToNativePath,
@@ -8,6 +8,27 @@ let files = [
   "bwapi/include/bwapi/TournamentAction.h".unixToNativePath,
   "bwapi/include/bwapi/Color.h".unixToNativePath,
 ]
+let bwapi_classes = [
+
+]
+let global_constants = [
+  "bwapi/include/bwapi/BulletType.h".unixToNativePath,
+  "bwapi/include/bwapi/Color.h".unixToNativePath,
+  "bwapi/include/bwapi/DamageType.h".unixToNativePath,
+  "bwapi/include/bwapi/Error.h".unixToNativePath,
+  "bwapi/include/bwapi/ExplosionType.h".unixToNativePath,
+  "bwapi/include/bwapi/GameType.h".unixToNativePath,
+  "bwapi/include/bwapi/Order.h".unixToNativePath,
+  "bwapi/include/bwapi/PlayerType.h".unixToNativePath,
+  "bwapi/include/bwapi/Race.h".unixToNativePath,
+  "bwapi/include/bwapi/TechType.h".unixToNativePath,
+  "bwapi/include/bwapi/UnitCommandType.h".unixToNativePath,
+  "bwapi/include/bwapi/UnitSizeType.h".unixToNativePath,
+  "bwapi/include/bwapi/UnitType.h".unixToNativePath,
+  "bwapi/include/bwapi/UpgradeType.h".unixToNativePath,
+  "bwapi/include/bwapi/WeaponType.h".unixToNativePath,
+]
+let files = ["bwapi/include/bwapi/Color.h".unixToNativePath]
 let re_namespace = re"namespace\s*(\w+)(?:$|\s)?"
 # ignore forward declarations
 let re_class = re"class\s*(\w+)(?![^;])$"
