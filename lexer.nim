@@ -7,7 +7,7 @@ proc consumeWord(line:var string) : string =
   result = line[0..last]
   line = line[last+1..^0]
 
-proc consumeCharacter(line:var string) : string =
+proc consumeOne(line:var string) : string =
   result = line[0..0]
   line = line[1..^0]
   #echo("consumed char: '" & result & "' remain: " & line)
@@ -40,6 +40,11 @@ proc consumeString(line:var string) : string =
   result = line[0..last]
   line = line[last+1..^0]
 
+proc consumeChar(line:var string) : string =
+  let (_, last) = line.findBounds(re("\'[^\'']*\'"))
+  result = line[0..last]
+  line = line[last+1..^0]
+
 proc lineLexer(line:string): iterator(): string =
   return iterator(): string =
     var remaining = strip(line)
@@ -49,6 +54,8 @@ proc lineLexer(line:string): iterator(): string =
         continue
       elif remaining.startswith(re"\w"):
         yield consumeWord(remaining)
+      elif remaining.startswith(re"[\^&<>=!+\-*]="):
+        yield consumeTwo(remaining)
       elif remaining.startswith(re"::"):
         yield consumeTwo(remaining)
       elif remaining.startswith(re"&&"):
@@ -56,9 +63,10 @@ proc lineLexer(line:string): iterator(): string =
       # stream operator <<
       elif remaining.startswith(re"<<[^>]*$"):
         yield consumeTwo(remaining)
-      elif remaining.startswith(re"<"):
-        consumeTemplate(remaining)
-        continue
+      elif remaining.startswith(re">>"):
+        yield consumeTwo(remaining)
+      elif remaining.startswith(re"<|>"):
+        yield consumeOne(remaining)
       elif remaining.startswith(re"->"):
         yield consumeTwo(remaining)
       elif remaining.startswith(re"//"):
@@ -72,8 +80,10 @@ proc lineLexer(line:string): iterator(): string =
         yield consumeThree(remaining)
       elif remaining.startswith(re("\"")):
         yield consumeString(remaining)
-      elif remaining.startswith(re":|{|}|\(|\)|;|=|,|&|\*"):
-        yield consumeCharacter(remaining)
+      elif remaining.startswith(re("\'")):
+        yield consumeChar(remaining)
+      elif remaining.startswith(re"[:{}();=,&*.|+\-/%\^?!]"):
+        yield consumeOne(remaining)
       else:
         echo "Error: unknown string: " & remaining
         return
@@ -81,7 +91,7 @@ proc lineLexer(line:string): iterator(): string =
 
 when isMainModule:
   import ospaths
-  for line in lines "bwapi/include/bwapi/position.h".unixToNativePath:
+  for line in lines "bwapi/include/bwapi/game.h".unixToNativePath:
     #let line = "static_assert(sizeof(Color) == sizeof(int),\"Expected type to resolve to primitive size.\");"
     var lexer = lineLexer(line)
     while true:
