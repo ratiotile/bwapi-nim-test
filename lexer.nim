@@ -1,5 +1,5 @@
 ## Produces tokens from a C++ header line
-import strutils, re
+import strutils, re, ospaths
 
 # assume we know the line starts with a word
 proc consumeWord(line:var string) : string =
@@ -88,15 +88,18 @@ proc lineLexer(line:string): iterator(): string =
         echo "Error: unknown string: " & remaining
         return
 
+proc fileLexer*(filename:string): iterator(): string =
+  return iterator(): string =
+    for line in lines filename:
+      var lexer = lineLexer(line)
+      while true:
+        let word = lexer()
+        if word != nil:
+          yield word
+        else:
+          break
 
 when isMainModule:
-  import ospaths
-  for line in lines "bwapi/include/bwapi/game.h".unixToNativePath:
-    #let line = "static_assert(sizeof(Color) == sizeof(int),\"Expected type to resolve to primitive size.\");"
-    var lexer = lineLexer(line)
-    while true:
-      let word = lexer()
-      if not finished(lexer):
-        echo word
-      else:
-        break
+  var lexer = fileLexer("bwapi/include/bwapi.h".unixToNativePath)
+  for token in lexer():
+    echo token
