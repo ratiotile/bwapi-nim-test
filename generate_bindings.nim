@@ -14,6 +14,6 @@ for file in walkDirRec(bwapi_dir):
       .replace(re"(bwapi\\include)", "bindings")
       .replace(re"(\.h)", ".nim")
     ensureDir(dest)
-    let cmd = "c2nim --cpp --header "&file&" -o:"&dest
+    let cmd = "..\\c2nim\\c2nim.exe --cpp --header --debug "&file&" -o:"&dest
     echo cmd
     discard execShellCmd(cmd)

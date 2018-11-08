@@ -27,11 +27,6 @@ I had to modify Sublime's build command for 32-bit mode:
     
     
 
-### explicit default constructor
-    event.h(17, 16) Error: ';' expected
-    interface.h(19, 18) Error: ';' expected
-    interfaceevent.h(18, 23) Error: ';' expected
-    unitcommand.h(18, 22) Error: ';' expected
 
 ### c++11 override
     client\bulletimpl.h(19, 41) Error: ';' expected
@@ -48,8 +43,6 @@ I had to modify Sublime's build command for 32-bit mode:
     bestfilter.h(16, 41) Error: '> [end of template]' expected
     filters.h(22, 45) Error: '> [end of template]' expected
     position.h(11, 38) Error: '> [end of template]' expected
-    setcontainer.h(17, 51) Error: '> [end of template]' expected
-    type.h(13, 35) Error: '> [end of template]' expected
     unaryfilter.h(22, 72) Error: '> [end of template]' expected
 
 ### Lambda
@@ -57,4 +50,16 @@ I had to modify Sublime's build command for 32-bit mode:
     
 ### C++11 deleted functions (ignore?)
     game.h(52, 48) Error: '[integer literal]' expected
-    
+
+### Skip private/protected inline functions
+    Type.h(40, 33) Error: ')' expected
+    Interface.h(30, 15) Error: identifier expected, but found '= (pxAsgn)'
+
+### default operator=
+    SetContainer.h(25, 61) Error: '[integer literal]' expected
+
+### Partial Template Specialization
+    Position.h(15, 36) Error: ';' expected
+
+### Template function type in constructor
+    InterfaceEvent.h(37, 49) Error: '> [end of template]' expected
