@@ -1,5 +1,5 @@
-bindings/
-bwapi/
-nimcache/
+/bindings/
+/bwapi/
+/nimcache/
 *.exe
 *.pdb
