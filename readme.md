@@ -22,10 +22,12 @@ compile on the command line with `nim cpp main.nim`
 
 ## nim passes arguments to vcc linker incorrectly
 Nim does this, given the passL config setting:
-`# cl.exe ${passL} ${libs} /nologo /DEBUG /Zi /F33554432 /Fe${output} ${objs}`
+
+    cl.exe ${passL} ${libs} /nologo /DEBUG /Zi /F33554432 /Fe${output} ${objs}
 
 The linker options must appear after the output filename, and have [`/link` ](https://docs.microsoft.com/en-us/cpp/build/reference/link-pass-options-to-linker?view=vs-2017) prepended. This is how it should work:
-`# cl.exe ${libs} /nologo /DEBUG /Zi /F33554432 /Fe${output} /link ${passL} ${objs}`
+
+    cl.exe ${libs} /nologo /DEBUG /Zi /F33554432 /Fe${output} /link ${passL} ${objs}
 
 
 ## c2nim has trouble with templates:
