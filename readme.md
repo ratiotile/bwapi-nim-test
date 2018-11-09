@@ -20,6 +20,9 @@ compile on the command line with `nim cpp main.nim`
 
 # Problems
 
+## How to wrap operator->()?
+Given C++ code `Broodwar->isInGame()`, where it is a combination of the dereference operator on GameWrapper and method call Game.isInGame(), I couldn't get it to work as two separate wrapper methods. I needed to trick the compiler by making a single wrapper method GameWrapper.isInGame() which emits the `->` operator using the `importcpp` pragma. 
+
 ## nim passes arguments to vcc linker incorrectly
 Nim does this, given the passL config setting:
 
