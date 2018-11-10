@@ -7,6 +7,10 @@ proc isInGame*(this: Game): bool {.importcpp: "isInGame", header: "BWAPI/Game.h"
 
 proc isInGame*(this: GameWrapper): bool {.importcpp: "#->isInGame()", header: "BWAPI/Game.h".}
 
-var Broodwar* {.importcpp: "BWAPI::Broodwar", header: "BWAPI/Game.h".} :GameWrapper
+var BroodwarPtr* {.importcpp: "BWAPI::BroodwarPtr", header: "BWAPI/Game.h".} :
+  ptr Game
+
+var Broodwar* {.importcpp: "BWAPI::Broodwar", header: "BWAPI/Game.h".} :
+  GameWrapper
 
 proc deref*(this: GameWrapper): Game {.importcpp: "#->@", header: "BWAPI/Game.h".}
