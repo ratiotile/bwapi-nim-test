@@ -1,7 +1,39 @@
+import winlean
+import nim_bwapi/BWAPI/Game
+import nim_bwapi/BWAPI/AIModule
+
+type
+  ExampleModule {.importcpp:"ExampleAIModule", header:"ExampleAIModule.h".} = object of AIModule
+
+const DLL_PROCESS_ATTACH = 1
+const DLL_PROCESS_DETACH = 0
+
+# extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
+proc gameInit(game: ptr Game) {.cdecl,exportc,dynlib.} =
+  BroodwarPtr = game
+
+# BOOL __stdcall DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+proc DLLMain(hModule: Handle, ul_reason_for_call: Dword, lpReserved: pointer): bool {.stdcall.}  =
+  case ul_reason_for_call
+  of DLL_PROCESS_ATTACH:
+    discard
+  of DLL_PROCESS_DETACH:
+    discard
+  else:
+    discard
+  result = true
+
+proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
+proc constructExampleModule(): ExampleModule {.importcpp: "ExampleAIModule(@)".}
+
+# extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
+proc newAIModule(): ptr AIModule {.cdecl,exportc,dynlib.} =
+  result = cnew constructExampleModule()
+
+# Include ExampleAIModule.cpp, but it could be a static lib that is linked in.
 {.emit:"""
 #include <BWAPI.h>
 #include <iostream>
-#include "ExampleAIModule.h"
 
 using namespace BWAPI;
 using namespace Filter;
@@ -9,7 +41,7 @@ using namespace Filter;
 void ExampleAIModule::onStart()
 {
   // Hello World!
-  Broodwar->sendText("Hello world!");
+  Broodwar->sendText("Hello world from nim?!");
 
   // Print the map name.
   // BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
@@ -299,50 +331,4 @@ void ExampleAIModule::onUnitComplete(BWAPI::Unit unit)
 {
 }
 
-#include <windows.h>
-
-extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
-
-extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
-{
-  return new ExampleAIModule();
-}
 """.}
-#[
-
-import nim_bwapi/BWAPI/Game
-import nim_bwapi/BWAPI/AIModule
-
-
-
-type
-  ExampleModule {.importcpp:"ExampleAIModule", header:"ExampleAIModule.h".} = object of AIModule
-
-proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
-proc constructExampleModule(): ExampleModule {.importcpp: "ExampleAIModule(@)".}
-
-# extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
-proc gameInit(game: ptr Game) {.cdecl,exportc,dynlib.} =
-  BroodwarPtr = game
-
-# BOOL __stdcall DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-
-
-# extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
-proc newAIModule(): ptr AIModule {.cdecl,exportc,dynlib.} =
-  result = cnew constructExampleModule()
-]#
-import winlean
-
-const DLL_PROCESS_ATTACH = 1
-const DLL_PROCESS_DETACH = 0
-
-proc DLLMain(hModule: Handle, ul_reason_for_call: Dword, lpReserved: pointer): bool {.stdcall.}  =
-  case ul_reason_for_call
-  of DLL_PROCESS_ATTACH:
-    discard
-  of DLL_PROCESS_DETACH:
-    discard
-  else:
-    discard
-  result = true
