@@ -1,4 +1,16 @@
-Basic C++ static library usage in Nim.
+# Manual Wrappers
+
+example_client.nim wraps the BWAPI client interface using pure Nim.
+
+example_module.nim wraps the BWAPI module dll interface. It relies on emitting the c++ code for implementing the AIModule interface, but it should be possible to have minimal code there that simply calls into nim procs.
+
+To support the above, I manually wrapped a few BWAPI dependencies.
+
+# Automatic Wrapper Generation
+
+It would be more efficient to automatically generate wrappers. There are 2 approaches: using/enhancing the existing c2nim, or building my own wrapper generator.
+
+## c2nim
 
 I installed c2nim using nimble: `nimble install c2nim`
 
@@ -17,6 +29,10 @@ I had to modify Sublime's build command for 32-bit mode:
 compile on the command line with `nim cpp main.nim`
 
 32-bit Nim is needed to compile 32-bit programs.
+
+## Custom Wrapper Generator
+
+Started working on this, but it's incomplete.
 
 # Problems
 

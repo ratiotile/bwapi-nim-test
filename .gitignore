@@ -3,3 +3,11 @@
 /nimcache/
 *.exe
 *.pdb
+/Debug
+/Release
+.vs/
+*.dll
+*.exp
+*.lib
+*.sln
+*.vcxproj*
