@@ -29,7 +29,7 @@ void ExampleAIModule::onStart()
 
     // Announce the players in the replay
     Broodwar << "The following players are in this replay:" << std::endl;
-    
+
     // Iterate all the players in the game using a std:: iterator
     Playerset players = Broodwar->getPlayers();
     for(auto p : players)
@@ -225,7 +225,7 @@ void ExampleAIModule::onNukeDetect(BWAPI::Position target)
     // if so, print the location of the nuclear strike target
     Broodwar << "Nuclear Launch Detected at " << target << std::endl;
   }
-  else 
+  else
   {
     // Otherwise, ask other players where the nuke is!
     Broodwar->sendText("Where's the nuke?");
@@ -295,4 +295,8 @@ void ExampleAIModule::onSaveGame(std::string gameName)
 
 void ExampleAIModule::onUnitComplete(BWAPI::Unit unit)
 {
+}
+
+void ExampleAIModule::setOnStartCallback(void(*cb)(void)){
+  m_onStartCallback = cb;
 }

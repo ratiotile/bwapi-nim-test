@@ -2,7 +2,7 @@
 
 example_client.nim wraps the BWAPI client interface using pure Nim.
 
-example_module.nim wraps the BWAPI module dll interface. It relies on emitting the c++ code for implementing the AIModule interface, but it should be possible to have minimal code there that simply calls into nim procs.
+example_module.nim wraps the BWAPI module dll interface. Some C++ code is necessary to implement the AIModule interface, and Nim callbacks may be passed, as function pointers with the cdecl pragma, into the C++ implementation.
 
 To support the above, I manually wrapped a few BWAPI dependencies.
 

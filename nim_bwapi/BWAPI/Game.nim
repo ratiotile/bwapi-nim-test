@@ -7,6 +7,8 @@ proc isInGame*(this: Game): bool {.importcpp: "isInGame", header: "BWAPI/Game.h"
 
 proc isInGame*(this: GameWrapper): bool {.importcpp: "#->isInGame()", header: "BWAPI/Game.h".}
 
+proc print*(this: Game, format: cstring): void {.importcpp: "printf", varargs, header: "BWAPI/Game.h".}
+
 var BroodwarPtr* {.importcpp: "BWAPI::BroodwarPtr", header: "BWAPI/Game.h".} :
   ptr Game
 
