@@ -300,3 +300,8 @@ void ExampleAIModule::onUnitComplete(BWAPI::Unit unit)
 void ExampleAIModule::setOnStartCallback(void(*cb)(void)){
   m_onStartCallback = cb;
 }
+void ExampleAIModule::setOnFrameCallback(void(*cb)(void)){ m_onFrameCallback = cb; }
+void ExampleAIModule::setOnEndCallback(void(*cb)(bool)){ m_onEndCallback = cb; }
+void ExampleAIModule::setOnSendTextCallback(void(*cb)(const char*)){ m_onSendTextCallback = cb; }
+
+void ExampleAIModule::setOnSaveGameCallback(void(*cb)(const char*)){ m_onSaveGameCallback = cb; }

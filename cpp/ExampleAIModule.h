@@ -6,6 +6,11 @@
 class ExampleAIModule : public BWAPI::AIModule
 {
   void(*m_onStartCallback)(void) = nullptr;
+  void(*m_onFrameCallback)(void) = nullptr;
+  void(*m_onEndCallback)(bool) = nullptr;
+  void(*m_onSendTextCallback)(const char*) = nullptr;
+
+  void(*m_onSaveGameCallback)(const char*) = nullptr;
 public:
   // Virtual functions for callbacks, leave these as they are.
   virtual void onStart();
@@ -27,4 +32,9 @@ public:
   virtual void onUnitComplete(BWAPI::Unit unit);
   // Everything below this line is safe to modify.
   void setOnStartCallback(void(*cb)(void));
+  void setOnFrameCallback(void(*cb)(void));
+  void setOnEndCallback(void(*cb)(bool));
+  void setOnSendTextCallback(void(*cb)(const char*));
+
+  void setOnSaveGameCallback(void(*cb)(const char*));
 };
